@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Football News</title>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <h1>⚽ English Football Daily</h1>
+        <nav>
+            <button onclick="filterNews('all')">All News</button>
+            <button onclick="filterNews('Premier League')">Premier League</button>
+            <button onclick="filterNews('Transfers')">Transfers</button>
+        </nav>
+    </header>
+
+    <hr>
+
+    <!-- Main Content Area -->
+    <main>
+        <!-- Breaking News Section -->
+        <section id="featured-news">
+            <h2>🔥 Featured Story</h2>
+            <article id="hero-article">
+                <h3 id="hero-title">Loading top story...</h3>
+                <p id="hero-excerpt"></p>
+                <small id="hero-category"></small>
+            </article>
+        </section>
+
+        <hr>
+
+        <!-- News Feed Grid -->
+        <section>
+            <h2>Latest Headlines</h2>
+            <div id="news-grid">
+                <!-- JavaScript will insert cards here -->
+            </div>
+        </section>
+    </main>
+
+    <hr>
+
+    <!-- Sidebar / Extra Info -->
+    <aside>
+        <h3>Premier League Live Standings</h3>
+        <ul id="standings-list">
+            <li>1. Arsenal</li>
+            <li>2. Manchester City</li>
+            <li>3. Liverpool</li>
+            <li>4. Chelsea</li>
+        </ul>
+    </aside>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Article Data (In a full app, this comes from an external API or database)
+        const articles = [
+            {
+                id: 1,
+                title: "Title Race Escalates After Thrilling 3-2 Weekend Comeback",
+                category: "Premier League",
+                excerpt: "A stoppage-time goal shifts the momentum at the top of the table heading into matchday 28.",
+                featured: true
+            },
+            {
+                id: 2,
+                title: "Record Transfer Fee Agreed for 20-Year-Old Midfield Prodigy",
+                category: "Transfers",
+                excerpt: "Medical scheduled for Tuesday as personal terms have been finalized.",
+                featured: false
+            },
+            {
+                id: 3,
+                title: "Managerical Shakeup: Contract Extensions and Pending Exits",
+                category: "Premier League",
+                excerpt: "Club board holds emergency meeting to decide the future of the coaching staff.",
+                featured: false
+            },
+            {
+                id: 4,
+                title: "EFL Championship Play-Off Race Reaches Boiling Point",
+                category: "Championship",
+                excerpt: "Only two points separate 3rd place from 7th with five games remaining.",
+                featured: false
+            }
+        ];
+
+        // Function to load breaking news
+        function loadFeaturedStory() {
+            const hero = articles.find(article => article.featured);
+            if (hero) {
+                document.getElementById('hero-title').innerText = hero.title;
+                document.getElementById('hero-excerpt').innerText = hero.excerpt;
+                document.getElementById('hero-category').innerText = "Category: " + hero.category;
+            }
+        }
+
+        // Function to render news feed grid
+        function renderNews(categoryFilter = 'all') {
+            const grid = document.getElementById('news-grid');
+            grid.innerHTML = ''; // Clear previous contents
+
+            const filteredArticles = categoryFilter === 'all' 
+                ? articles 
+                : articles.filter(a => a.category === categoryFilter);
+
+            filteredArticles.forEach(article => {
+                const card = document.createElement('article');
+                card.innerHTML = `
+                    <h4>${article.title}</h4>
+                    <p>${article.excerpt}</p>
+                    <small><b>Tag:</b> ${article.category}</small>
+                    <br><br>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Category filter handler
+        function filterNews(category) {
+            renderNews(category);
+        }
+
+        // Initialize page content on load
+        loadFeaturedStory();
+        renderNews();
+    </script>
+
+</body>
+</html>

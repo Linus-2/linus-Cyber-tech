@@ -1,0 +1,41 @@
+const express = require("express");
+const fs = require("fs");
+const app = express();
+app.use(express.json());
+
+const FILE = "names.txt";
+if (!fs.existsSync(FILE)) fs.writeFileSync(FILE, "");
+
+// The page people open
+app.get("/", (req, res) => {
+  res.send(`<html>
+  <head>
+    <script>
+      function myNameIs() {
+        var fname = prompt("enter your fname");
+        var lname = prompt("enter your lname");
+        if (!fname || !lname) return;
+        fetch("/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fname: fname, lname: lname })
+        });
+        document.write("my name is " + fname + " " + lname);
+      }
+    </script>
+  </head>
+  <body onload="myNameIs()"></body>
+</html>`);
+});
+
+// Saves a name
+app.post("/save", (req, res) => {
+  const { fname, lname } = req.body;
+  fs.appendFileSync(FILE, fname + " " + lname + "\n");
+  res.send("saved");
+});
+
+// You open this to see all names
+app.get("/names", (req, res) => {
+  res.type("text").send(fs.readFileSync(FILE, "utf8"));
+});

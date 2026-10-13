@@ -1,0 +1,30 @@
+<html>
+<head>
+<script type="text/javascript">
+
+function smallest() {
+    var weight1 = (prompt("Enter weight 1"));
+    var weight2 = (prompt("Enter weight 2"));
+    var weight3 = (prompt("Enter weight 3"));
+
+    var small;
+
+    if (weight1 <= weight2 && weight1 <= weight3) {
+        small = weight1;
+    }
+    else if (weight2 <= weight1 && weight2 <= weight3) {
+        small = weight2;
+    }
+    else {
+        small = weight3;
+    }
+
+    alert("The smallest weight is: " + small);
+}
+
+</script>
+</head>
+
+<body onload="smallest()">
+</body>
+</html>
